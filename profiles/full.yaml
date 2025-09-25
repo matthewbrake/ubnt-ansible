@@ -1,0 +1,13 @@
+---
+- name: Apply full profile configuration
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Include user creation task
+      include_tasks: "../tasks/user-create.yml"
+
+    - name: Include Docker installation task
+      include_tasks: "../tasks/docker-install.yml"
+
+    # ... include other task files for the 'full' profile ...
