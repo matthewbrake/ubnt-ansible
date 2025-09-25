@@ -1,0 +1,11 @@
+---
+- name: Apply system configuration based on profile
+  hosts: localhost
+  connection: local
+  vars:
+    # Default profile if not passed as an extra-vars
+    deployment_profile: "minimal"
+
+  tasks:
+    - name: Include the profile-specific playbook
+      include_playbook: "profiles/{{ deployment_profile }}.yml"
