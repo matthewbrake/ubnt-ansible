@@ -2,7 +2,7 @@
 # Minimal firstboot setup
 LOG_DIR="/var/log/firstboot"
 LOG_FILE="$LOG_DIR/deployment.log"
-ANSIBLE_REPO="https://github.com/matthewbrake/ansible-deb-setup.git"
+ANSIBLE_REPO="https://github.com/matthewbrake/ubnt-ansible.git"
 
 # Setup logging
 mkdir -p "$LOG_DIR"
