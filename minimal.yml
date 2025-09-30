@@ -1,0 +1,41 @@
+---
+- name: Minimal Ubuntu Setup
+  hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - name: Create admin user
+      user:
+        name: admin
+        groups: sudo
+        shell: /bin/bash
+        state: present
+
+    - name: Set admin password
+      user:
+        name: admin
+        password: "{{ 'password123' | password_hash('sha512') }}"
+
+    - name: Setup SSH directory
+      file:
+        path: /home/admin/.ssh
+        state: directory
+        owner: admin
+        group: admin
+        mode: '0700'
+
+    - name: Add SSH public key
+      authorized_key:
+        user: admin
+        state: present
+        key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGVJagbPLhADLA5Cf/5tlLy8bsR6mFWRfy21b/ScU3Ye1hpFmdE26dLa1Merz4QzxhFQjQ7Uedh2ILgJnNh2qRulYt45vVO96BWOOA/pIb1tetBf2SFuW7JxeTvh2oeeKbvoOC8i+cFpI5H318Enc3DtXan4XXwaJgvVmI7IOptWi0rhcInNOnDiapTQC5d1TlEJ5J/l9L5bNDagE/+0qibivKHVAe0kqufFNLMSziRSLSGGg4TILNlLfTOmIe/+432ADGpN6pa+EeDr1EiP764mPEL8Sb15ORgOriWXHjjcrOM3amLkuQST6NbfXYRNF+upYJscyxjWFI2UGtWVp9"
+
+    - name: Ensure SSH server is installed
+      apt:
+        name: openssh-server
+        state: present
+
+    - name: Print completion message
+      debug:
+        msg: "Minimal setup complete! User 'admin' created with SSH key."
